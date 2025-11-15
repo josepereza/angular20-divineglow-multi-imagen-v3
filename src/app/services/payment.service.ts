@@ -9,6 +9,8 @@ export class PaymentService {
   private http = inject(HttpClient);
   // URL de nuestro backend de ejemplo
   private backendUrl = 'http://localhost:3001'; 
+   // private backendUrl = '/api3/'; 
+
 
   processPayment(paymentMethodId: string, amount: number): Observable<any> {
     const payload = {

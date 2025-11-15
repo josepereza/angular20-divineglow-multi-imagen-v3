@@ -6,7 +6,7 @@ import { Form } from '@angular/forms';
 
 @Injectable({ providedIn: 'root' })
 export class ProductServiceAdmin {
-  private API_URL = 'http://localhost:3000/productos';
+  private API_URL = 'http://localhost:3001/productos';
   private productsSignal = signal<Product[]>([]);
   private auth = inject(AuthService);
   private get authHeaders(): HttpHeaders {
@@ -20,12 +20,12 @@ export class ProductServiceAdmin {
 
   constructor(private http: HttpClient) {}
   getProductsRs() {
-    return httpResource<Product[] | undefined>(() => `http://localhost:3000/productos`);
+    return httpResource<Product[] | undefined>(() => `http://localhost:3001/productos`);
   }
 
   getProductRs(id: Signal<string>) {
     return httpResource<Product | undefined>(() => ({
-      url: `http://localhost:3000/productos/${id()}`,
+      url: `http://localhost:3001/productos/${id()}`,
     }));
   }
 
@@ -94,4 +94,11 @@ export class ProductServiceAdmin {
     }
     return this.createProduct(formData);
   }
+
+  uploadImages(productId: number, files: File[]) {
+  const form = new FormData();
+  files.forEach(f => form.append('imagenes', f));
+
+  return this.http.post(`${this.API_URL}/${productId}/imagenes`, form);
+}
 }

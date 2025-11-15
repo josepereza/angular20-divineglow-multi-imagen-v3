@@ -24,7 +24,7 @@
       <div class="card bg-dark text-white shadow border-secondary h-100">
         @if (product?.imagenes?.length) {
         <img
-          [src]="'http://localhost:3000' + product.imagenes[0]?.imageUrl"
+          [src]="'http://localhost:3001' + product.imagenes[0]?.imageUrl"
           class="card-img-top"
           style="height: 180px; object-fit: cover"
         />
@@ -53,8 +53,90 @@
 </div>
 
 <!-- MODAL FORMULARIO -->
- @if (showModal()) {
-<div class="modal fade show" tabindex="-1" style="display: block" >
+@if (showModal()) {
+<div class="modal fade show" tabindex="-1" style="display: block">
+  <div class="modal-dialog">
+    <div class="modal-content bg-dark text-white">
+      <div class="modal-header">
+        <h5 class="modal-title text-info">
+          {{ editMode() ? '✏️ Produkt bearbeiten' : '🆕 Neues Produkt hinzufügen' }}
+        </h5>
+        <button type="button" class="btn-close btn-close-white" (click)="closeModal()"></button>
+      </div>
+
+      <div class="modal-body">
+        <form [formGroup]="productoForm" (ngSubmit)="submitForm()" class="card p-4 shadow">
+          <h3 class="mb-3">Crear Producto</h3>
+
+          <div class="mb-3">
+            <label class="form-label">Name</label>
+            <input formControlName="name" class="form-control" placeholder="Nombre del producto" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea formControlName="description" class="form-control"></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Price</label>
+            <input type="number" formControlName="price" class="form-control" />
+          </div>
+
+          <div class="mb-3">
+            <label class="form-label">Lagerbestand</label>
+            <input type="number" formControlName="stock" class="form-control" />
+          </div>
+          @if(editMode()){
+          <input type="file" (change)="onFilesSelected($event)" multiple />
+          <button (click)="uploadImages()">Subir imágenes</button>
+
+          <div class="preview">
+            @for (img of previewsImagenes(); track $index) {
+            <img [src]="img" width="100px" class="thumb" />
+
+            }
+          </div>
+
+          } @if(!editMode()){
+          <div class="mb-3">
+            <label class="form-label">Imágenes</label>
+            <input type="file" multiple class="form-control" (change)="onFileChange($event)" />
+          </div>
+          }
+
+          <!-- ✅ Previsualización de imágenes -->
+          @if (imagenesPreview().length > 0) {
+          <div class="row mt-3">
+            @for (img of imagenesPreview(); track $index) {
+            <div class="col-3">
+              <img
+                [src]="img"
+                class="img-thumbnail mb-2"
+                style="height: 100px; object-fit: cover"
+              />
+            </div>
+            }
+          </div>
+          }
+
+          <button class="btn btn-primary w-100 mt-3" [disabled]="productoForm.invalid">
+            Crear Producto
+          </button>
+        </form>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="closeModal()">Abbrechen</button>
+      </div>
+    </div>
+  </div>
+</div>
+}
+
+<!-- MODAL FORMULARIO -->
+@if (showModalImagenes()) {
+<div class="modal fade show" tabindex="-1" style="display: block">
   <div class="modal-dialog">
     <div class="modal-content bg-dark text-white">
       <div class="modal-header">
@@ -120,5 +202,4 @@
     </div>
   </div>
 </div>
- }
-
+}

@@ -12,7 +12,7 @@ interface LoginResponse {
 export class AuthService {
   private isBrowser: boolean;
 
-  private baseUrl = 'http://localhost:3000/auth/login';
+  private baseUrl = 'http://localhost:3001/auth/login';
 
   private tokenSignal = signal<string | null>('');
   private userSignal = signal<any | null>(null);

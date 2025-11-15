@@ -21,6 +21,7 @@ export interface ConfirmationPayload {
 export class EmailService {
   private http = inject(HttpClient);
   private backendUrl = 'http://localhost:3001';
+  //private backendUrl = '/api3/';
 
   // El método ahora acepta el payload completo
   sendConfirmationEmail(payload: ConfirmationPayload): Observable<any> {

@@ -22,9 +22,37 @@ export class ProductListAdmin {
 
   products = this.service.products;
   showModal = signal(false);
+    showModalImagenes = signal(false);
+
   selectedProduct = signal<Product | null>(null);
   http = inject(HttpClient);
   imagenesPreview = signal<string[]>([]);
+
+  // AGREGAR MAS IMAGENES
+  selectedFilesAgregar: File[] = [];
+previewsImagenes=signal<string[]>([]);
+
+onFilesSelected(event: any) {
+  this.selectedFiles = Array.from(event.target.files);
+
+  const previews: string[] = [];
+
+  this.selectedFiles.forEach((file) => {
+    const reader = new FileReader();
+    reader.onload = () => {
+      previews.push(reader.result as string);
+      this.previewsImagenes.set([...previews]);
+
+    };
+    reader.readAsDataURL(file);
+  });
+}
+
+uploadImages() {
+  this.service.uploadImages(this.selectedProduct()!.id, this.selectedFiles)
+    .subscribe(() => alert('Imágenes subidas'));
+}
+  // final linea agregar mas imagenes
 
   productoForm: FormGroup = this.fb.group({
     id: [null],

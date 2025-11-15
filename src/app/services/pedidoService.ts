@@ -16,7 +16,9 @@ export class PedidoService {
   });
 
   orders = this.ordersSignal.asReadonly();
-  private apiUrl = 'http://localhost:3000/pedidos'; // Asegúrate de que esta sea la URL correcta de tu API
+//  private apiUrl = 'http://localhost:3002/pedidos'; 
+    private apiUrl = '/api2/pedidos'; 
+
 
   constructor(private http: HttpClient) {
         this.loadOrders();

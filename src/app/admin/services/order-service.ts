@@ -8,7 +8,7 @@ export class OrdersService {
   private ordersSignal = signal<CreatePedido[]>([]);
   orders = this.ordersSignal.asReadonly();
 
-  private apiUrl = 'http://localhost:3000/pedidos';
+  private apiUrl = 'http://localhost:3001/pedidos';
 
   constructor(private http: HttpClient) {
     this.loadOrders();
