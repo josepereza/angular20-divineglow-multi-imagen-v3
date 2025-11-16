@@ -87,18 +87,8 @@
             <label class="form-label">Lagerbestand</label>
             <input type="number" formControlName="stock" class="form-control" />
           </div>
-          @if(editMode()){
-          <input type="file" (change)="onFilesSelected($event)" multiple />
-          <button (click)="uploadImages()">Subir imágenes</button>
-
-          <div class="preview">
-            @for (img of previewsImagenes(); track $index) {
-            <img [src]="img" width="100px" class="thumb" />
-
-            }
-          </div>
-
-          } @if(!editMode()){
+        
+          @if(!editMode()){
           <div class="mb-3">
             <label class="form-label">Imágenes</label>
             <input type="file" multiple class="form-control" (change)="onFileChange($event)" />
@@ -124,6 +114,26 @@
             Crear Producto
           </button>
         </form>
+  @if(editMode()){
+          <input type="file" (change)="onFilesSelected($event)" multiple />
+          <button (click)="uploadImages()">Subir imágenes</button>
+          @for (img of selectedProduct()?.imagenes; track $index) {
+          <div>
+            <img [src]="'http://localhost:3001' + img.imageUrl" width="100px" class="thumb" />
+
+            <button (click)="deleteImage(img.id)">Eliminar</button>
+          </div>
+          }
+
+          <div class="preview">
+            @for (img of previewsImagenes(); track $index) {
+            <img [src]="img" width="100px" class="thumb" />
+
+            }
+          </div>
+
+          } 
+
       </div>
 
       <div class="modal-footer">

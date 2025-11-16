@@ -101,4 +101,8 @@ export class ProductServiceAdmin {
 
   return this.http.post(`${this.API_URL}/${productId}/imagenes`, form);
 }
+
+deleteImage(productId: number, imageId: number) {
+  return this.http.delete(`${this.API_URL}/${productId}/imagenes/${imageId}`);
+}
 }

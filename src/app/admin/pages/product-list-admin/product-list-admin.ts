@@ -145,4 +145,25 @@ uploadImages() {
     this.auth.logout();
     this.router.navigate(['/login']); // vuelve a la página de login
   }
+  deleteImage(imageId: number) {
+  this.service.deleteImage(this.selectedProduct()!.id , imageId)
+    .subscribe(() => {
+     this.selectedProduct.update(currentProduct => {
+    // Filtrar el array de imágenes para eliminar la imagen específica
+     if (!currentProduct) {
+      return null; // o lanzar un error, o mantener null
+    }
+    const updatedImagenes = currentProduct!.imagenes.filter(
+      img => img.id !== imageId
+    );
+    
+    // Retornar el producto actualizado
+    return {
+      ...currentProduct,
+      imagenes: updatedImagenes
+    };
+  });
+    });
+}
+
 }
